@@ -1,0 +1,32 @@
+{% block content %}
+{% load static %}
+  <h1>Task List</h1>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Completion Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.completed|yesno:"Yes,No" }}</td>
+          <td>
+            <form method="post" action="{% url 'toggle_task_status' task.id %}">
+              {% csrf_token %}
+              <input type="submit" value="Toggle Status">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
